@@ -1,0 +1,39 @@
+data:
+  model_config:
+    class: ModelConfig
+    id_fields: definition_id
+    key: definition_id
+    fields:
+      # A UUID or similar unique identifier with no inherent meaning
+      definition_id:
+        type: "@django.ForeignKey"
+        relation: training_definition
+        options:
+          "null": false
+          on_delete: "@django.PROTECT"
+          editable: false
+      # A library such as sklearn, keras, pytorch, etc.
+      # TODO: Create a foreign table to enumerate this list
+      library_name:
+        type: "@django.CharField"
+        options:
+          "null": false
+          editable: false
+      # A general kind of model such as 'linear_model.LinearRegression' or
+      # 'ensemble.HistGradientBoostingClassifier'
+      model_type:
+        type: "@django.CharField"
+        options:
+          "null": false
+          editable: false
+      # Hyperparameters or additional code/config needed to create an
+      # untrained model object
+      config_id:
+        type: "@django.Charfield"
+        options:
+        "null": true
+        editable: false
+  
+
+
+
