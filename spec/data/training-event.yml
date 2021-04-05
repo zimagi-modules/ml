@@ -1,4 +1,117 @@
 data:
+  training_event:
+    class: TrainingEvent
+    id_fields: [timestamp, definition_id]
+    key: [timestamp, definition_id]
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      timestamp:
+        type: "@django.DateTimeField"
+        options:
+          "null": false
+          editable: false
+      definition_id:
+        type: "@django.UUIDField"
+        options:
+          "null": false
+          editable: false
+      resources_group:
+        type: "@django.UUIDField"
+        options:
+          "null": true
+          editable: true
+      data_source:
+        type: "@django.TextField"
+        options:
+          "null": false
+          editable: false
+      # A plausible use case is simply not to store the training model BLOB
+      # if the corresponding metrics show it to be bad enough not to retain
+      trained_model:
+        type: "django.BinaryField"
+        options:
+          "null": true
+          editable: true
+
+  metrics:
+    class: Metrics
+    id_fields: [timestamp, definition_id]
+    key: [timestamp, definition_id]
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      timestamp: 
+        type: "@django.ForeignKey"
+        relation: training_event
+        options:
+          "null": false
+          editable: false
+          on_delete: "@djando.PROTECT"
+      definition_id: 
+        type: "@django.ForeignKey"
+        relation: training_event
+        "null": false
+        editable: false
+        on_delete: "@djando.PROTECT"
+      metric:
+        type: "django.TextField"
+        options:
+          "null": false
+          editable: yes
+      value:
+        type: "@django.NumericField"
+        options:
+          "null": false
+          editable: true
+
+  resources:
+    class: Resources
+    id_fields: [resource_group, machine_name]
+    key: [resource_group, machine_name]
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      resources_group: 
+        type: "@django.ForeignKey"
+        relation: training_event
+        options:
+          "null": false
+          editable: false
+          on_delete: "@djando.PROTECT"
+      machine_name:
+        type: "django.TextField"
+        options:
+          "null": false
+          editable: true
+      duration:
+        type: "@django.NumericField"
+        options:
+          "null": true
+          editable: true
+      cost:
+        type: "@django.NumericField"
+        options:
+          "null": true
+          editable: true
+      # Leave room for ad hoc details
+      details:
+        type: "@django.TextField"
+        options:
+          "null" true
+          editable: true
+
+
+
+
+
+
+
+
+
   model_config:
     class: ModelConfig
     id_fields: definition_id
@@ -15,7 +128,7 @@ data:
       # A library such as sklearn, keras, pytorch, etc.
       # TODO: Create a foreign table to enumerate this list
       library_name:
-        type: "@django.CharField"
+        type: "@djanga.ForeignKey"
         options:
           "null": false
           editable: false
@@ -29,7 +142,7 @@ data:
       # Hyperparameters or additional code/config needed to create an
       # untrained model object
       config_id:
-        type: "@django.Charfield"
+        type: "@django.ForeignKey"
         options:
         "null": true
         editable: false
