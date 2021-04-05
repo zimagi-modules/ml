@@ -1,0 +1,4 @@
+roles:
+  scheduler: User with rights to create new training schedules
+  predicter: User with rights to make predictions from existing model
+
