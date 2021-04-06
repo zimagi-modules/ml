@@ -232,7 +232,7 @@ data:
       view: [scheduler, predicter]
     fields:
       library_name:
-        type: "@django.TextField
+        type: "@django.TextField"
         options:
           "null": false
           editable: true
@@ -247,7 +247,7 @@ data:
       view: [scheduler, predicter]
     fields:
       model_type:
-        type: "@django.TextField
+        type: "@django.TextField"
         options:
           "null": false
           editable: true
@@ -262,7 +262,7 @@ data:
       view: [scheduler, predicter]
     fields:
       pseudokey:
-        type: "@django.TextField
+        type: "@django.TextField"
         options:
           "null": false
           editable: true
