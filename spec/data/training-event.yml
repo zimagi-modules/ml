@@ -156,7 +156,7 @@ data:
       # TODO: Create a foreign table to enumerate this list
       library_name:
         type: "@django.ForeignKey"
-        relation: library_name
+        relation: library_names
         options:
           "null": false
           editable: false
