@@ -101,7 +101,7 @@ data:
       details:
         type: "@django.TextField"
         options:
-          "null" true
+          "null": true
           editable: true
 
   data_sources:
