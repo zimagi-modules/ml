@@ -2,7 +2,7 @@ data:
   training_event:
     class: TrainingEvent
     id_fields: [timestamp, definition_id]
-    key: [timestamp, definition_id]
+    key: event
     roles:
       edit: [scheduler]
       view: [scheduler, predicter]
@@ -38,7 +38,7 @@ data:
   metrics:
     class: Metrics
     id_fields: [timestamp, definition_id]
-    key: [timestamp, definition_id]
+    key: validation
     roles:
       edit: [scheduler]
       view: [scheduler, predicter]
@@ -70,7 +70,7 @@ data:
   resources:
     class: Resources
     id_fields: [resource_group, machine_name]
-    key: [resource_group, machine_name]
+    key: resource
     roles:
       edit: [scheduler]
       view: [scheduler, predicter]
@@ -104,12 +104,35 @@ data:
           "null" true
           editable: true
 
-
-
-
-
-
-
+  data_sources:
+    class: DataSource
+    id_fields: [data_source]
+    key: data_source
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      data_source:
+        type: "@django.ForeignKey"
+        relation: training_event
+        options:
+          "null": false
+          editable: false
+      zimagi_module:
+        type: "@django.TextField"
+        options:
+          "null": false
+          editable: true
+      command:
+        type: "@django.TextField"
+        options:
+          "null": false
+          editable: true
+      comment:
+        type: "@django.TextField"
+        options:
+          "null": true
+          editable: true
 
 
   model_config:
@@ -119,11 +142,9 @@ data:
     fields:
       # A UUID or similar unique identifier with no inherent meaning
       definition_id:
-        type: "@django.ForeignKey"
-        relation: training_definition
+        type: "@django.UUIDField"
         options:
           "null": false
-          on_delete: "@django.PROTECT"
           editable: false
       # A library such as sklearn, keras, pytorch, etc.
       # TODO: Create a foreign table to enumerate this list
