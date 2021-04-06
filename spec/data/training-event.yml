@@ -118,6 +118,7 @@ data:
         options:
           "null": false
           editable: false
+          on_delete: "@django.PROTECT"
       zimagi_module:
         type: "@django.TextField"
         options:
@@ -156,6 +157,7 @@ data:
         options:
           "null": false
           editable: false
+          on_delete: "@django.PROTECT"
       # A general kind of model such as 'linear_model.LinearRegression' or
       # 'ensemble.HistGradientBoostingClassifier'
       model_type:
