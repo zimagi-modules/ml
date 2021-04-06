@@ -30,7 +30,7 @@ data:
       # A plausible use case is simply not to store the training model BLOB
       # if the corresponding metrics show it to be bad enough not to retain
       trained_model:
-        type: "django.BinaryField"
+        type: "@django.BinaryField"
         options:
           "null": true
           editable: true
@@ -57,7 +57,7 @@ data:
         editable: false
         on_delete: "@djando.PROTECT"
       metric:
-        type: "django.TextField"
+        type: "@django.TextField"
         options:
           "null": false
           editable: yes
@@ -83,7 +83,7 @@ data:
           editable: false
           on_delete: "@djando.PROTECT"
       machine_name:
-        type: "django.TextField"
+        type: "@django.TextField"
         options:
           "null": false
           editable: true
@@ -137,8 +137,11 @@ data:
 
   model_config:
     class: ModelConfig
-    id_fields: definition_id
+    id_fields: [definition_id]
     key: definition_id
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
     fields:
       # A UUID or similar unique identifier with no inherent meaning
       definition_id:
@@ -165,9 +168,107 @@ data:
       config_id:
         type: "@django.ForeignKey"
         options:
-        "null": true
-        editable: false
+          "null": true
+          editable: false
   
+  hyperparameters:
+    class: HyperParameters
+    id_fields: [config_id, sequence]
+    key: config
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+    fields:
+      config_id:
+        type: "@django.UUIDField"
+        options:
+          "null": false
+          editable: false
+      # Multiple hyperparameters configured under same config_id,
+      # distinguished by distinct sequence number (generally ordinal, monotonic)
+      sequence:
+        type: "@django.IntegerField"
+        options:
+          "null": false
+          editable: true
+      # This will act as a non-enforced foreign key in that values MAY
+      # correspond to keys in `pseudokeys` but do not need to for standard
+      # hyperparameters provided by the libraries
+      key:
+        type: "@django.TextField"
+        options:
+          "null": false
+          editable: true
+      # For pseudo-keys this will generally be NULL
+      value:
+        type: "@django.TextField"
+        options:
+          "null": true
+          editable: true
+          default: null
+      # Hyperparamater values stored as strings, can be cast to other types
+      value_type:
+        type: "@django.TextField"
+        options:
+          "null": true
+          editable: true
+          default: null
+      # Optionally, can include actual untrained-model setup code rather than
+      # use a list of hyperparameters.  For NN libs this is probably easier
+      manual_code:
+        type: "@django.TextField"
+        options:
+          "null": true
+          editable: true
+          default: null
 
 
+  library_names:
+    class: LibraryNames
+    id_fields: [library_name]
+    key: library_name
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      library_name:
+        type: "@django.TextField
+        options:
+          "null": false
+          editable: true
 
+
+  model_type:
+    class: ModelType
+    id_fields: [model_type]
+    key: model_type
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+    fields:
+      model_type:
+        type: "@django.TextField
+        options:
+          "null": false
+          editable: true
+
+
+  pseudokeys:
+    class: PseudoKeys
+    id_fields: [pseudokey]
+    key: pseudo_key
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+    fields:
+      pseudokey:
+        type: "@django.TextField
+        options:
+          "null": false
+          editable: true
+      serialization:
+        type: "@django.BinaryField"
+        options:
+          "null": true
+          editable: true
+         
