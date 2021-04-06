@@ -53,9 +53,10 @@ data:
       definition_id: 
         type: "@django.ForeignKey"
         relation: training_event
-        "null": false
-        editable: false
-        on_delete: "@django.PROTECT"
+        options:
+          "null": false
+          editable: false
+          on_delete: "@django.PROTECT"
       metric:
         type: "@django.TextField"
         options:
@@ -103,6 +104,7 @@ data:
         options:
           "null": true
           editable: true
+
 
   data_sources:
     class: DataSource
@@ -172,7 +174,9 @@ data:
         options:
           "null": true
           editable: false
-  
+          on_delete: "@django.PROTECT"
+
+
   hyperparameters:
     class: HyperParameters
     id_fields: [config_id, sequence]
