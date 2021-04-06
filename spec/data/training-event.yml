@@ -156,6 +156,7 @@ data:
       # TODO: Create a foreign table to enumerate this list
       library_name:
         type: "@django.ForeignKey"
+        relation: library_name
         options:
           "null": false
           editable: false
@@ -171,6 +172,7 @@ data:
       # untrained model object
       config_id:
         type: "@django.ForeignKey"
+        relation: hyperparameters
         options:
           "null": true
           editable: false
