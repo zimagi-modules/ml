@@ -49,13 +49,13 @@ data:
         options:
           "null": false
           editable: false
-          on_delete: "@djando.PROTECT"
+          on_delete: "@django.PROTECT"
       definition_id: 
         type: "@django.ForeignKey"
         relation: training_event
         "null": false
         editable: false
-        on_delete: "@djando.PROTECT"
+        on_delete: "@django.PROTECT"
       metric:
         type: "@django.TextField"
         options:
@@ -81,7 +81,7 @@ data:
         options:
           "null": false
           editable: false
-          on_delete: "@djando.PROTECT"
+          on_delete: "@django.PROTECT"
       machine_name:
         type: "@django.TextField"
         options:
