@@ -63,7 +63,7 @@ data:
           "null": false
           editable: yes
       value:
-        type: "@django.NumericField"
+        type: "@django.FloatField"
         options:
           "null": false
           editable: true
@@ -89,12 +89,12 @@ data:
           "null": false
           editable: true
       duration:
-        type: "@django.NumericField"
+        type: "@django.FloatField"
         options:
           "null": true
           editable: true
       cost:
-        type: "@django.NumericField"
+        type: "@django.FloatField"
         options:
           "null": true
           editable: true
@@ -193,7 +193,7 @@ data:
       # Multiple hyperparameters configured under same config_id,
       # distinguished by distinct sequence number (generally ordinal, monotonic)
       sequence:
-        type: "@django.IntegerField"
+        type: "@django.PositiveSmallIntegerField"
         options:
           "null": false
           editable: true
