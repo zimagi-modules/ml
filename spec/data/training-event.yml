@@ -155,7 +155,7 @@ data:
       # A library such as sklearn, keras, pytorch, etc.
       # TODO: Create a foreign table to enumerate this list
       library_name:
-        type: "@djanga.ForeignKey"
+        type: "@django.ForeignKey"
         options:
           "null": false
           editable: false
