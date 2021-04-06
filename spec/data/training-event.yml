@@ -242,7 +242,7 @@ data:
       library_name:
         type: "@django.TextField"
         options:
-          "null": true
+          "null": false
           editable: true
 
 
