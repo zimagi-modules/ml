@@ -164,7 +164,7 @@ data:
       # A general kind of model such as 'linear_model.LinearRegression' or
       # 'ensemble.HistGradientBoostingClassifier'
       model_type:
-        type: "@django.CharField"
+        type: "@django.TextField"
         options:
           "null": false
           editable: false
