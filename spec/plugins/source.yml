@@ -1,0 +1,18 @@
+plugin:
+  source:
+    providers:
+      module_data:
+        requirement:
+          module_name:
+            type: str
+            help: Name of installed module to provide training data
+          view: 
+            type: str
+            help: Name of model within module accessed
+          features:
+            type: list
+            help: What columns should be used as features?
+          target:
+            type: str
+            help: What column should be used as target?
+
