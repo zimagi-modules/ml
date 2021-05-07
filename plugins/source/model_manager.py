@@ -19,9 +19,7 @@ class Provider(BaseProvider("source", "model_manager")):
         return self.columns
 
     def load_items(self, context):
-        for i in range(10):  # Bogus toy version
-            yield range(len(self.columns))  # silly data, right number of columns
+        yield from self.facade(self.view).values(self.columns)
 
     def load_item(self, row, context):
-        from random import shuffle
-        return shuffle(list(row))
+        pass
