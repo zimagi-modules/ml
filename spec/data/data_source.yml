@@ -1,0 +1,74 @@
+data_mixins:
+  data_source:
+    class: DataSourceMixin
+    fields:
+      source:
+        type: "@django.ForeignKey"
+        relation: data_source
+        options:
+          "null": true
+          on_delete: "@django.CASCADE"
+          editable: false
+
+  data_sources:
+    class: DataSourceRelationMixin
+    fields:
+      sources:
+        type: "@django.ManyToManyField"
+        relation: data_source
+
+data_base:
+  data_source:
+    class: DataSourceBase
+    base: resource
+    mixins: [data_source]
+    id_fields: [source_id, name]
+    meta:
+      unique_together: [source, name]
+      scope: source
+
+data:
+  data_source:
+    class: DataSource
+    base: environment
+    roles:
+      edit: [scheduler]
+      view: [scheduler, predicter]
+    fields:
+      module:
+        type: "@django.CharField"
+        options:
+          "null": false
+          max_length: 255
+      command:
+        type: "@django.CharField"
+        options:
+          "null": false
+          max_length: 255
+      comment:
+        type: "@django.TextField"
+        options:
+          "null": true
+    meta:
+      verbose_name: source
+
+command_mixins:
+  data_source:
+    class: DataSourceMixin
+    meta:
+      source:
+        data: data_source
+        priority: 1
+
+command_base:
+  data_source:
+    mixins: [data_source]
+    server_enabled: true
+    groups_allowed: [scheduler, predicter]
+
+command:
+  source:
+    resource: data_source
+    base: data_source
+    base_name: source
+    priority: 150

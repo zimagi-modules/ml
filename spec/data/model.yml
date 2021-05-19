@@ -1,0 +1,57 @@
+data_mixins:
+  model:
+    class: ModelMixin
+    fields:
+      model:
+        type: "@django.ForeignKey"
+        relation: model
+        options:
+          "null": true
+          on_delete: "@django.CASCADE"
+          editable: false
+
+  models:
+    class: ModelRelationMixin
+    fields:
+      models:
+        type: "@django.ManyToManyField"
+        relation: model
+
+data_base:
+  model:
+    class: ModelBase
+    base: resource
+    mixins: [model]
+    id_fields: [model_id, name]
+    meta:
+      unique_together: [model, name]
+      scope: model
+
+data:
+  model:
+    class: Model
+    base: environment
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+
+command_mixins:
+  model:
+    class: ModelMixin
+    meta:
+      model:
+        data: model
+        priority: 1
+
+command_base:
+  model:
+    mixins: [model]
+    server_enabled: true
+    groups_allowed: [scheduler, predicter]
+
+command:
+  model:
+    resource: model
+    base: model
+    base_name: model
+    priority: 120

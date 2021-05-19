@@ -1,0 +1,77 @@
+data_mixins:
+  hyperparameter:
+    class: HyperParameterMixin
+    fields:
+      hyperparameter:
+        type: "@django.ForeignKey"
+        relation: hyperparameter
+        options:
+          "null": true
+          on_delete: "@django.CASCADE"
+          editable: false
+
+  hyperparameters:
+    class: HyperParameterRelationMixin
+    fields:
+      hyperparameters:
+        type: "@django.ManyToManyField"
+        relation: hyperparameter
+
+data_base:
+  hyperparameter:
+    class: HyperParameterBase
+    base: resource
+    mixins: [hyperparameter]
+    id_fields: [hyperparameter_id, name]
+    meta:
+      unique_together: [hyperparameter, name]
+      scope: hyperparameter
+
+data:
+  hyperparameter:
+    class: HyperParameter
+    base: environment
+    mixins: [pseudokey]
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+    fields:
+      # For pseudokeys this will generally be NULL
+      value:
+        type: "@django.TextField"
+        options:
+          "null": true
+      # Parameter values stored as strings, can be cast to other types
+      value_type:
+        type: "@django.CharField"
+        options:
+          "null": true
+          max_length: 100
+      # Optionally, can include actual untrained-model setup code rather than
+      # use a list of model parameters.  For NN libs this is probably easier
+      manual_code:
+        type: "@django.TextField"
+        options:
+          "null": true
+
+command_mixins:
+  hyperparameter:
+    class: HyperParameterMixin
+    mixins: [pseudokey]
+    meta:
+      hyperparameter:
+        data: hyperparameter
+        priority: 1
+
+command_base:
+  hyperparameter:
+    mixins: [hyperparameter]
+    server_enabled: true
+    groups_allowed: [scheduler, predicter]
+
+command:
+  hyperparameter:
+    resource: hyperparameter
+    base: hyperparameter
+    base_name: hyperparameter
+    priority: 130

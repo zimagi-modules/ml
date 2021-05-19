@@ -1,0 +1,64 @@
+data_mixins:
+  pseudokey:
+    class: PseudoKeyMixin
+    fields:
+      key:
+        type: "@django.ForeignKey"
+        relation: pseudokey
+        options:
+          "null": true
+          on_delete: "@django.CASCADE"
+          editable: false
+
+  pseudokeys:
+    class: PseudoKeyRelationMixin
+    fields:
+      keys:
+        type: "@django.ManyToManyField"
+        relation: pseudokey
+
+data_base:
+  pseudokey:
+    class: PseudoKeyBase
+    base: resource
+    mixins: [pseudokey]
+    id_fields: [key_id, name]
+    meta:
+      unique_together: [key, name]
+      scope: key
+
+data:
+  pseudokey:
+    class: PseudoKey
+    base: environment
+    roles:
+      edit: [scheduler, predicter]
+      view: [scheduler, predicter]
+    fields:
+      serialization:
+        type: "@django.BinaryField"
+        options:
+          "null": true
+    meta:
+      verbose_name: key
+
+command_mixins:
+  pseudokey:
+    class: PseudoKeyMixin
+    meta:
+      key:
+        data: pseudokey
+        priority: 1
+
+command_base:
+  pseudokey:
+    mixins: [pseudokey]
+    server_enabled: true
+    groups_allowed: [scheduler, predicter]
+
+command:
+  pseudokey:
+    resource: pseudokey
+    base: pseudokey
+    base_name: key
+    priority: 140
