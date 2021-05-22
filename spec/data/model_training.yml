@@ -63,7 +63,6 @@ data:
         options:
           "null": true
     meta:
-      verbose_name: training
       unique_together: [config, time]
       ordering_fields: [time]
       ordering: [-time]
@@ -74,7 +73,7 @@ command_mixins:
     class: ModelTrainingMixin
     mixins: [model_config, engine, data_source]
     meta:
-      training:
+      model_training:
         data: model_training
         priority: 3
 
@@ -89,5 +88,5 @@ command:
     training:
       resource: model_training
       base: model_training
-      base_name: training
+      base_name: model_training
       priority: 140

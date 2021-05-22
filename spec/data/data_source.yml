@@ -49,14 +49,12 @@ data:
         type: "@django.TextField"
         options:
           "null": true
-    meta:
-      verbose_name: source
 
 command_mixins:
   data_source:
     class: DataSourceMixin
     meta:
-      source:
+      data_source:
         data: data_source
         priority: 1
 
@@ -70,5 +68,5 @@ command:
   source:
     resource: data_source
     base: data_source
-    base_name: source
+    base_name: data_source
     priority: 150

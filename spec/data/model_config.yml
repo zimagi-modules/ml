@@ -35,15 +35,13 @@ data:
     roles:
       edit: [scheduler, predicter]
       view: [scheduler, predicter]
-    meta:
-      verbose_name: config
 
 command_mixins:
   model_config:
     class: ModelConfigMixin
     mixins: [model, library, hyperparameter]
     meta:
-      config:
+      model_config:
         data: model_config
         priority: 2
 
@@ -58,5 +56,5 @@ command:
     config:
       resource: model_config
       base: model_config
-      base_name: config
+      base_name: model_config
       priority: 100
