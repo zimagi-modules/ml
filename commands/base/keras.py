@@ -1,7 +1,9 @@
+from django.conf import settings
+
 from systems.commands.index import BaseCommand
 
 
-class ModelBaseCommand(BaseCommand('keras')):
+class KerasBaseCommand(BaseCommand('keras')):
 
     def get_model_provider(self):
         return 'keras'
