@@ -1,0 +1,53 @@
+plugin:
+    ml_data:
+        base: base
+        requirement:
+            split_percentages:
+                type: list
+                help: "List of percentages to split data into samples"
+        option:
+            target:
+                type: bool
+                help: "Whether or not to frame data as a target (vs predictor)"
+                default: false
+
+        interface:
+            get_min_samples:
+                returns: int
+            preprocess:
+                params:
+                    data: dataframe
+                returns: dataframe
+            postprocess:
+            split_data:
+                params:
+                    percentages: list
+                returns: list
+            normalize:
+                params:
+                    data: dataframe
+                returns: dataframe
+
+        providers:
+            keras_sequence:
+                requirement:
+                    X_period:
+                        type: int
+                        help: "Number of samples to include for predictor sequence"
+                option:
+                    Y_period:
+                        type: int
+                        help: "Number of samples to include for target sequence"
+                        default: 1
+                    training_index:
+                        type: int
+                        help: "Sample index for training data"
+                        default: 0
+                    validation_index:
+                        type: int
+                        help: "Sample index for validation data"
+                        default: 1
+                    test_index:
+                        type: int
+                        help: "Sample index for test data"
+                        default: 2
