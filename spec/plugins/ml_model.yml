@@ -2,16 +2,19 @@ plugin:
     ml_model:
         base: base
         requirement:
+            model_name:
+                type: str
+                help: "Model name"
             data_provider:
-                type: "plugins.ml_data.*.Provider"
+                type: str
                 help: "Data provider for the machine learning model"
         option:
             X_data:
-                type: dataframe
+                type: "pandas.DataFrame"
                 help: "Dataframe containing predictor data"
                 default: null
             Y_data:
-                type: dataframe
+                type: "pandas.DataFrame"
                 help: "Dataframe containing target data"
                 default: null
             time_processor:
@@ -62,6 +65,6 @@ plugin:
             keras:
                 option:
                     data_provider:
-                        type: "plugins.ml_data.*.Provider"
+                        type: str
                         help: "Data provider for the machine learning model"
                         default: sequential
