@@ -14,8 +14,8 @@ plugin:
                 type: dataframe
                 help: "Dataframe containing target data"
                 default: null
-            date_time:
-                type: "utility.datetime.DateTime"
+            time_processor:
+                type: "utility.time.Time"
                 help: "Date time processor object (uses model default if not set)"
                 default: null
 

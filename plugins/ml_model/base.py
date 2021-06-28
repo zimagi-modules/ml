@@ -2,7 +2,7 @@ from django.conf import settings
 from matplotlib import pyplot
 
 from systems.plugins.index import BasePlugin
-from utility.datetime import DateTime
+from utility.time import Time
 from utility.project import project_dir
 from utility.dataframe import get_csv_file_name
 
@@ -11,24 +11,25 @@ import numpy
 
 class BaseProvider(BasePlugin('ml_model')):
 
-    def __init__(self, type, name, command, config):
+    def __init__(self, type, name, command, model_config, data_config):
         super().__init__(type, name, command)
-        self.config = config
+        self.config = model_config
 
-        if self.field_date_time is None:
-            self.config['date_time'] = DateTime(
+        if self.field_time_processor is None:
+            self.config['time_processor'] = Time(
                 settings.MODEL_DEFAULT_DATE_FORMAT,
                 settings.MODEL_DEFAULT_TIME_FORMAT,
                 settings.MODEL_DEFAULT_TIME_SPACER_FORMAT
             )
 
         self.model = None
-        self.timestamp = self.field_date_time.now
+        self.timestamp = self.field_time_processor.now
 
         if self.field_X_data is not None:
             self.set_data(
                 self.field_X_data,
-                self.field_Y_data
+                self.field_Y_data,
+                **data_config
             )
 
 
@@ -69,19 +70,19 @@ class BaseProvider(BasePlugin('ml_model')):
         )
 
 
-    def load(self, model_builder, *method_args, **method_kwargs):
+    def load(self, model_builder):
         with self._model_project as project:
             model_path = project.path(self.model_id)
 
             if project.exists(self.model_id):
                 self.model = self.load_model(model_path)
             else:
-                self.build(model_builder, *method_args, **method_kwargs)
+                self.build(model_builder)
         return self.model
 
-    def build(self, model_builder, *method_args, **method_kwargs):
+    def build(self, model_builder):
         with self._model_project as project:
-            self.model = model_builder(self, *method_args, **method_kwargs)
+            self.model = model_builder(self)
             self.save()
         return self.model
 
@@ -111,7 +112,7 @@ class BaseProvider(BasePlugin('ml_model')):
     def export(self, name, data, **options):
         with self._result_project as project:
             project.save(
-                data.to_csv(date_format = self.field_date_time.time_format, **options),
+                data.to_csv(date_format = self.field_time_processor.time_format, **options),
                 get_csv_file_name("{}_{}".format(self.model_id, name))
             )
 
