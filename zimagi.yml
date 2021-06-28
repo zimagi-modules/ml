@@ -1,2 +1,3 @@
 name: "model-manager"
 
+requirements: requirements.txt
