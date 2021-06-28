@@ -1,0 +1,116 @@
+command_mixins:
+    data_processing:
+        class: DataProcessingMixin
+        parameters:
+            data_name:
+                parser: variable
+                type: str
+                default: null
+                optional: true
+                help: "unique name for the data query"
+                value_label: "NAME"
+            data_names:
+                parser: variables
+                type: str
+                default: null
+                optional: "--data-names"
+                help: "unique names for data queries"
+                value_label: "NAME"
+            predictor_data_name:
+                parser: variable
+                type: str
+                default: null
+                optional: true
+                help: "unique name for the predictor data query"
+                value_label: "NAME"
+            target_data_name:
+                parser: variable
+                type: str
+                default: null
+                optional: true
+                help: "unique name for the target data query"
+                value_label: "NAME"
+            period_start_time:
+                parser: variable
+                type: str
+                default: null
+                optional: "--start-date"
+                help: "start date in the form of YYY-MM-DD"
+                value_label: "YYYY-MM-DD [HH-MM-SS]"
+            period_end_time:
+                parser: variable
+                type: str
+                default: null
+                optional: "--end-date"
+                help: "end date in the form of YYY-MM-DD"
+                value_label: "YYYY-MM-DD [HH-MM-SS]"
+            period_unit_type:
+                parser: variable
+                type: str
+                default: days
+                optional: "--unit-type"
+                help: "unit type for units to query"
+                value_label: "TYPE"
+            period_units:
+                parser: variable
+                type: int
+                default: null
+                optional: "--units"
+                help: "number of units to query in the form of [-]NUM"
+                value_label: "[-]NUM"
+            no_fill:
+                parser: flag
+                flag: "--no-fill"
+                help: "disable forward fill of missing values"
+            resample_freq:
+                parser: variable
+                type: str
+                default: null
+                optional: "--resample"
+                help: "resample the data as another time frequency"
+                value_label: "PERIOD_STR"
+            resample_summary:
+                parser: variable
+                type: str
+                default: last
+                optional: "--resample-summary"
+                help: "resample summary operation of the data"
+                value_label: "OP"
+
+command_base:
+    data:
+        mixins: [data_processing]
+        server_enabled: true
+        groups_allowed: [data-admin]
+
+command:
+    dump:
+        priority: 150
+        period:
+            base: data
+            priority: 110
+            parameters:
+                period_fields:
+                    parser: fields
+                    default: null
+                    optional: false
+                    help: "field values in the form of query_type:field"
+                    value_label: "QUERY_TYPE:FIELD"
+                required_types:
+                    parser: variables
+                    type: str
+                    default: null
+                    optional: "--req-types"
+                    help: "required query type fields"
+                    value_label: "TYPE"
+            parse:
+                data_name: false
+                period_fields: false
+                period_start_time:
+                period_end_time:
+                period_unit_type:
+                no_fill:
+                resample_freq:
+                resample_summary:
+                required_types:
+                period_units:
