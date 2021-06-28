@@ -5,28 +5,11 @@ import numpy
 
 class Provider(BaseProvider("ml_data", "keras_sequence")):
 
-    @property
-    def training_data(self):
-        return self.samples[self.field_training_index]
-
-    @property
-    def validation_data(self):
-        return self.samples[self.field_validation_index]
-
-    @property
-    def test_data(self):
-        return self.samples[self.field_test_index]
-
-
     def postprocess(self):
         self.training = self.reframe(self.training_data)
         self.validation = self.reframe(self.validation_data)
         self.test = self.reframe(self.test_data)
         self.period = self.field_Y_period if self.field_target else self.field_X_period
-
-
-    def get_min_samples(self):
-        return 3
 
 
     def reframe(self, series):
