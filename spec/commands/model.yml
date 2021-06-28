@@ -5,6 +5,76 @@ command_mixins:
 
 command_base:
     model:
+        class: ModelBaseCommand
         mixins: [model]
         server_enabled: true
         groups_allowed: [model-admin]
+        parameters:
+            model_name:
+                parser: variable
+                type: str
+                default: null
+                optional: true
+                help: "unique name for the model"
+                value_label: "NAME"
+            split_percentages:
+                parser: variables
+                type: float
+                default: null
+                optional: "--split"
+                help: "split data into sample percentages"
+                value_label: "INDEX"
+            plot_columns:
+                parser: variables
+                type: int
+                default: null
+                optional: "--plot-columns"
+                help: "columns to plot test results"
+                value_label: "NAME"
+            plot_prediction_indexes:
+                parser: variables
+                type: int
+                default: null
+                optional: "--plot-indexes"
+                help: "prediction indexes to plot test results"
+                value_label: "INDEX"
+
+    keras:
+        class: KerasBaseCommand
+        base: model
+        parameters:
+            epochs:
+                parser: variable
+                type: int
+                default: 5
+                optional: "--epochs"
+                help: "number of epochs to train model"
+                value_label: "CYCLES"
+            batch_size:
+                parser: variable
+                type: int
+                default: 64
+                optional: "--batch"
+                help: "batch size for model training"
+                value_label: "SAMPLES"
+            training_index:
+                parser: variable
+                type: int
+                default: 0
+                optional: "--train-index"
+                help: "sample index for the training data"
+                value_label: "INDEX"
+            validation_index:
+                parser: variable
+                type: int
+                default: 1
+                optional: "--val-index"
+                help: "sample index for the validation data"
+                value_label: "INDEX"
+            test_index:
+                parser: variable
+                type: int
+                default: 2
+                optional: "--test-index"
+                help: "sample index for the test data"
+                value_label: "INDEX"
