@@ -5,10 +5,10 @@ import math
 
 class BaseProvider(BasePlugin('ml_data')):
 
-    def __init__(self, type, name, command, data, **config):
+    def __init__(self, type, name, command, data, config):
         super().__init__(type, name, command)
         self.data = self.preprocess(data)
-        self.config = config
+        self.import_config(config)
 
         assert len(self.field_split_percentages) >= self.get_min_samples() and sum(self.field_split_percentages) <= 1
 
@@ -37,7 +37,7 @@ class BaseProvider(BasePlugin('ml_data')):
 
         for percentage in percentages:
             length = math.floor(self.data_length * percentage)
-            sample_data.append(self.normalize(self.data[index:length]))
+            sample_data.append(self.normalize(self.data[index:(index + length)]))
             index += length
 
         return sample_data
