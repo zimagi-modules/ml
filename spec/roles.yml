@@ -1,4 +1,5 @@
 roles:
-  scheduler: User with rights to create new training schedules
-  predicter: User with rights to make predictions from existing model
-
+    data-admin: Administer data series
+    data-viewer: View data series
+    model-admin: Build, save, and train machine learning models
+    model-user: Run already trained machine learning models
