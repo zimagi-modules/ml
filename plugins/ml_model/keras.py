@@ -37,9 +37,9 @@ class Provider(BaseProvider("ml_model", "keras")):
 
     def train(self, epochs = 10, batch_size = 32, **params):
         results = self.model.fit(
-            self.X.training,
-            self.Y.training,
-            validation_data = (self.X.validation, self.Y.validation),
+            self.X.training_frame,
+            self.Y.training_frame,
+            validation_data = (self.X.validation_frame, self.Y.validation_frame),
             epochs = epochs,
             batch_size = batch_size,
             **params
@@ -48,10 +48,10 @@ class Provider(BaseProvider("ml_model", "keras")):
         return results
 
     def predict(self, **params):
-        predictions = self.model.predict(self.X.test)
+        predictions = self.model.predict(self.X.test_frame)
         test_data = []
 
-        for index, Y_info in enumerate(self.Y.test):
+        for index, Y_info in enumerate(self.Y.test_frame):
             # Next actual values only
             record = list(Y_info[0])
 
@@ -63,7 +63,7 @@ class Provider(BaseProvider("ml_model", "keras")):
 
         series = pandas.DataFrame(test_data,
             columns = self.prediction_columns,
-            index = self.Y.test_data.index[self.X.period:-(self.Y.period - 1)]
+            index = self.Y.test_data.index[self.X.period:(self.X.period + len(test_data))]
         )
         self.export('predictions', series)
         return series
