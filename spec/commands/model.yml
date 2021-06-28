@@ -1,0 +1,10 @@
+command_mixins:
+    model:
+        class: ModelMixin
+        mixins: [data_processing]
+
+command_base:
+    model:
+        mixins: [model]
+        server_enabled: true
+        groups_allowed: [model-admin]
