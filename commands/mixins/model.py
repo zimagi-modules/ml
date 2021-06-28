@@ -12,6 +12,7 @@ class ModelMixin(CommandMixin('model')):
 
 
     def get_model(self, name, model_params, data_params):
+        model_params['model_name'] = name
         model_params['data_provider'] = self.get_data_provider()
 
         if 'X_data' in model_params and isinstance(model_params['X_data'], str):
@@ -22,9 +23,7 @@ class ModelMixin(CommandMixin('model')):
             index_column = model_params.pop('Y_data_index_column') if 'Y_data_index_column' in model_params else 'date'
             model_params['Y_data'] = self.load_data(model_params['Y_data'], index_column = index_column)
 
-        return self.get_provider('ml_model', self.get_model_provider(),
-            name, model_params, data_params
-        )
+        return self.get_provider('ml_model', self.get_model_provider(), model_params, data_params)
 
 
     def get_model_provider(self):
