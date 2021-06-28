@@ -1,9 +1,15 @@
+from tensorflow import keras
 from django.conf import settings
 
 from systems.commands.index import BaseCommand
 
 
 class KerasBaseCommand(BaseCommand('keras')):
+
+    @property
+    def keras(self):
+        return keras
+
 
     def get_model_provider(self):
         return 'keras'
