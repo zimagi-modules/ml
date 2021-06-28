@@ -1,0 +1,67 @@
+plugin:
+    ml_model:
+        base: base
+        requirement:
+            data_provider:
+                type: "plugins.ml_data.*.Provider"
+                help: "Data provider for the machine learning model"
+        option:
+            X_data:
+                type: dataframe
+                help: "Dataframe containing predictor data"
+                default: null
+            Y_data:
+                type: dataframe
+                help: "Dataframe containing target data"
+                default: null
+            date_time:
+                type: "utility.datetime.DateTime"
+                help: "Date time processor object (uses model default if not set)"
+                default: null
+
+        interface:
+            set_data:
+                params:
+                    X_series: dataframe
+                    Y_series: dataframe
+                    config: dict
+            init:
+                params:
+                    model_builder: func
+                    method_args: list
+                    method_kwargs: dict
+                returns: "*"
+            build:
+                params:
+                    model_builder: callable
+                    method_args: list
+                    method_kwargs: dict
+                returns: "*"
+            load:
+                params:
+                    model_path: str
+                returns: "*"
+            save:
+            summary:
+                returns: str
+            train:
+                params:
+                    params: dict
+                returns: "*"
+            predict:
+                params:
+                    params: dict
+                returns: "dataframe"
+            export:
+                params:
+                    name: date
+                    data: dataframe
+                    options: dict
+
+        providers:
+            keras:
+                option:
+                    data_provider:
+                        type: "plugins.ml_data.*.Provider"
+                        help: "Data provider for the machine learning model"
+                        default: sequential
