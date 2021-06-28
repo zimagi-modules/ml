@@ -13,7 +13,7 @@ class BaseProvider(BasePlugin('ml_model')):
 
     def __init__(self, type, name, command, model_config, data_config):
         super().__init__(type, name, command)
-        self.config = model_config
+        self.import_config(model_config)
 
         if self.field_time_processor is None:
             self.config['time_processor'] = Time(
