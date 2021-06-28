@@ -29,16 +29,8 @@ plugin:
                 returns: dataframe
 
         providers:
-            keras_sequence:
-                requirement:
-                    X_period:
-                        type: int
-                        help: "Number of samples to include for predictor sequence"
+            keras:
                 option:
-                    Y_period:
-                        type: int
-                        help: "Number of samples to include for target sequence"
-                        default: 1
                     training_index:
                         type: int
                         help: "Sample index for training data"
@@ -51,3 +43,15 @@ plugin:
                         type: int
                         help: "Sample index for test data"
                         default: 2
+
+            keras_sequence:
+                base: keras
+                requirement:
+                    X_period:
+                        type: int
+                        help: "Number of samples to include for predictor sequence"
+                option:
+                    Y_period:
+                        type: int
+                        help: "Number of samples to include for target sequence"
+                        default: 1
