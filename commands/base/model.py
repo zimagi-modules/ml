@@ -23,22 +23,20 @@ class ModelBaseCommand(BaseCommand('model')):
     def exec(self):
         self.run_model()
 
-    def run_model(self, **params):
-        model = self.init_model(
-            self.model_parameters(),
-            self.data_parameters()
-        )
-        training = self.train(model, self.train_parameters())
-        test_data = self.predict(model, self.predict_parameters())
+    def run_model(self):
+        model = self.init_model()
+        training = self.train(model)
+        test_data = self.predict(model)
         return model, training, test_data
 
 
-    def init_model(self, model_params, data_params):
+    def init_model(self):
+        model_params = self.model_parameters()
         model_params['X_data'] = self.predictor_data_name
         model_params['Y_data'] = self.target_data_name
 
         model = self.get_model(self.model_name,
-            model_params, data_params
+            model_params, self.data_parameters()
         )
         self.notice('Building model')
         model.build(self.build_model)
@@ -52,13 +50,13 @@ class ModelBaseCommand(BaseCommand('model')):
         raise NotImplementedError("Subclasses of the base model command must implement a build_model method")
 
 
-    def train(self, model, params):
+    def train(self, model):
         self.notice('Training model')
-        return model.train(**params)
+        return model.train(**self.train_parameters())
 
-    def predict(self, model, params):
+    def predict(self, model):
         self.notice('Running test predictions and generating results')
-        test_data = model.predict(**params)
+        test_data = model.predict(**self.predict_parameters())
 
         if self.plot_columns:
             indexes = self.plot_prediction_indexes if self.plot_prediction_indexes else None
