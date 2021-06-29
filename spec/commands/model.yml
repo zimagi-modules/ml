@@ -31,13 +31,13 @@ command_base:
                 optional: "--plot-columns"
                 help: "columns to plot test results"
                 value_label: "NAME"
-            plot_prediction_indexes:
+            plot_prediction_suffixes:
                 parser: variables
-                type: int
+                type: str
                 default: null
-                optional: "--plot-indexes"
-                help: "prediction indexes to plot test results"
-                value_label: "INDEX"
+                optional: "--plot-suffixes"
+                help: "prediction suffixes to plot test results"
+                value_label: "SUFFIX"
 
     keras:
         class: KerasBaseCommand

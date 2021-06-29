@@ -59,12 +59,12 @@ class ModelBaseCommand(BaseCommand('model')):
         test_data = model.predict(**self.predict_parameters())
 
         if self.plot_columns:
-            indexes = self.plot_prediction_indexes if self.plot_prediction_indexes else None
+            suffixes = self.plot_prediction_suffixes if self.plot_prediction_suffixes else None
 
             self.notice('Generating test plots')
             for column in self.plot_columns:
                 model.plot(column, test_data,
-                    *model.get_prediction_columns(column, indexes = indexes)
+                    *model.get_prediction_columns(column, suffixes = suffixes)
                 )
         self.success('Successfully tested and generated model results')
         return test_data

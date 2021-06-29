@@ -9,21 +9,6 @@ import pandas
 
 class Provider(BaseProvider("ml_model", "keras")):
 
-    @property
-    def prediction_columns(self):
-        columns = list(self.Y.test_data.columns)
-        for index in range(self.Y.period):
-            columns.extend(["{}_{}".format(column, index + 1) for column in self.Y.test_data.columns])
-        return columns
-
-    def get_prediction_columns(self, column, include_column = True, indexes = None):
-        columns = [column] if include_column else []
-        for index in range(self.Y.period):
-            if indexes is None or (index + 1) in ensure_list(indexes):
-                columns.append("{}_{}".format(column, index + 1))
-        return columns
-
-
     def load_model(self, model_path):
         return keras.models.load_model(model_path)
 
@@ -49,6 +34,7 @@ class Provider(BaseProvider("ml_model", "keras")):
 
     def predict(self, **params):
         predictions = self.model.predict(self.X.test_frame)
+        Y_columns = list(self.Y.test_data.columns)
         test_data = []
 
         for index, Y_info in enumerate(self.Y.test_frame):
@@ -56,17 +42,20 @@ class Provider(BaseProvider("ml_model", "keras")):
             record = list(Y_info[0])
 
             # All prediction timeframes
-            for prediction in predictions[index]:
-                record.extend(ensure_list(prediction))
+            for prediction in list(predictions[index]):
+                try:
+                    record.extend(prediction)
+                except Exception:
+                    record.append(prediction)
 
             test_data.append(record)
 
-        series = pandas.DataFrame(test_data,
-            columns = self.prediction_columns,
-            index = self.Y.test_data.index[self.X.period:(self.X.period + len(test_data))]
+        data = pandas.DataFrame(test_data,
+            columns = self.Y.get_prediction_columns(),
+            index = self.Y.get_test_index()
         )
-        self.export('predictions', series)
-        return series
+        self.export('predictions', data)
+        return data
 
 
     def plot_loss(self, results):

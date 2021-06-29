@@ -2,6 +2,7 @@ from django.conf import settings
 from matplotlib import pyplot
 
 from systems.plugins.index import BasePlugin
+from utility.data import ensure_list
 from utility.time import Time
 from utility.project import project_dir
 from utility.dataframe import get_csv_file_name
@@ -107,6 +108,10 @@ class BaseProvider(BasePlugin('ml_model')):
 
     def predict(self, **params):
         raise NotImplementedError("Implement train in derived classes of the base Machine Learning Model provider")
+
+
+    def get_prediction_columns(self, column, suffixes = None):
+        return self.Y.get_prediction_columns(column, suffixes = suffixes)
 
 
     def export(self, name, data, **options):

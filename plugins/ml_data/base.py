@@ -45,3 +45,7 @@ class BaseProvider(BasePlugin('ml_data')):
 
     def normalize(self, data):
         return data.fillna(0)
+
+
+    def get_prediction_columns(self, column = None, suffixes = None):
+        raise NotImplementedError("Implement get_prediction_columns in derived classes of the base Machine Learning Data provider")
