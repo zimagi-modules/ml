@@ -57,7 +57,7 @@ class Provider(BaseProvider("ml_model", "keras")):
 
             # All prediction timeframes
             for prediction in predictions[index]:
-                record.extend(prediction)
+                record.extend(ensure_list(prediction))
 
             test_data.append(record)
 
