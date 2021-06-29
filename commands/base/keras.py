@@ -25,11 +25,11 @@ class KerasBaseCommand(BaseCommand('keras')):
         }
 
 
-    def train(self, model, params):
+    def train(self, model):
         self.notice('Training model')
         return model.train(
             epochs = self.epochs,
             batch_size = self.batch_size,
             verbose = not settings.API_EXEC,
-            **params
+            **self.train_parameters()
         )
