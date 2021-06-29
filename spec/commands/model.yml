@@ -26,7 +26,7 @@ command_base:
                 value_label: "INDEX"
             plot_columns:
                 parser: variables
-                type: int
+                type: str
                 default: null
                 optional: "--plot-columns"
                 help: "columns to plot test results"
@@ -78,3 +78,22 @@ command_base:
                 optional: "--test-index"
                 help: "sample index for the test data"
                 value_label: "INDEX"
+
+    keras_sequential:
+        class: KerasSequentialBaseCommand
+        base: keras
+        parameters:
+            predictor_period:
+                parser: variable
+                type: int
+                default: 1
+                optional: "--predictors"
+                help: "number of samples in the past to include in training"
+                value_label: "SAMPLES"
+            target_period:
+                parser: variable
+                type: int
+                default: 1
+                optional: "--targets"
+                help: "number of future samples to predict"
+                value_label: "SAMPLES"
