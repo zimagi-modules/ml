@@ -55,3 +55,7 @@ plugin:
                         type: int
                         help: "Number of samples to include for target sequence"
                         default: 1
+                    single_event:
+                        type: bool
+                        help: "Whether or not to return a single event in the future regardless of period"
+                        default: true
