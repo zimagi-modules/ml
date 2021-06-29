@@ -23,7 +23,7 @@ command_base:
                 default: null
                 optional: "--split"
                 help: "split data into sample percentages"
-                value_label: "INDEX"
+                value_label: "PERCENT"
             plot_columns:
                 parser: variables
                 type: str
@@ -97,3 +97,7 @@ command_base:
                 optional: "--targets"
                 help: "number of future samples to predict"
                 value_label: "SAMPLES"
+            sequential_target:
+                parser: flag
+                flag: "--seq-target"
+                help: "whether or not to generate sequencial targets or a single target"

@@ -9,5 +9,6 @@ class KerasSequentialBaseCommand(BaseCommand('keras_sequential')):
     def data_parameters(self):
         return { **super().data_parameters(),
             'X_period': self.predictor_period,
-            'Y_period': self.target_period
+            'Y_period': self.target_period,
+            'single_event': not getattr(self, 'sequential_target', False)
         }
