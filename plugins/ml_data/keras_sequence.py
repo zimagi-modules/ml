@@ -11,7 +11,7 @@ class Provider(BaseProvider("ml_data", "keras_sequence")):
         self.test_frame = self.reframe(self.test_data)
 
         if self.field_target:
-            self.period = 1 if self.field_single_event else self.field_Y_period
+            self.period = 1 if self.field_single_target else self.field_Y_period
         else:
             self.period = self.field_X_period
 
@@ -29,7 +29,7 @@ class Provider(BaseProvider("ml_data", "keras_sequence")):
                 break
 
             if self.field_target:
-                if self.field_single_event:
+                if self.field_single_target:
                     results.append(series[(Y_end - 1):Y_end,:])
                 else:
                     results.append(series[X_end:Y_end,:])
