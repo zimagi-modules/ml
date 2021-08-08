@@ -1,16 +1,8 @@
 from settings.config import Config
 
 #
-# Model settings
-#
-MODEL_DEFAULT_DATE_FORMAT = Config.string('ZIMAGI_MODEL_DEFAULT_DATE_FORMAT', '%Y-%m-%d')
-MODEL_DEFAULT_TIME_FORMAT = Config.string('ZIMAGI_MODEL_DEFAULT_TIME_FORMAT', '%H:%M:%S')
-MODEL_DEFAULT_TIME_SPACER_FORMAT = Config.string('ZIMAGI_MODEL_DEFAULT_TIME_SPACER_FORMAT', ' ')
-
-#
 # Model project configurations
 #
-MODEL_PROJECT_NAME = Config.string('ZIMAGI_MODEL_PROJECT_NAME', 'model-manager')
-MODEL_PROJECT_DATA_DIR = Config.string('ZIMAGI_MODEL_PROJECT_DATA_DIR', 'data')
+MODEL_PROJECT_NAME = Config.string('ZIMAGI_MODEL_PROJECT_NAME', 'ml')
 MODEL_PROJECT_MODEL_DIR = Config.string('ZIMAGI_MODEL_PROJECT_MODEL_DIR', 'models')
 MODEL_PROJECT_RESULT_DIR = Config.string('ZIMAGI_MODEL_PROJECT_RESULT_DIR', 'results')
