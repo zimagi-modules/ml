@@ -27,35 +27,3 @@ plugin:
                 params:
                     data: dataframe
                 returns: dataframe
-
-        providers:
-            keras:
-                option:
-                    training_index:
-                        type: int
-                        help: "Sample index for training data"
-                        default: 0
-                    validation_index:
-                        type: int
-                        help: "Sample index for validation data"
-                        default: 1
-                    test_index:
-                        type: int
-                        help: "Sample index for test data"
-                        default: 2
-
-            keras_sequence:
-                base: keras
-                requirement:
-                    X_period:
-                        type: int
-                        help: "Number of samples to include for predictor sequence"
-                option:
-                    Y_period:
-                        type: int
-                        help: "Number of samples to include for target sequence"
-                        default: 1
-                    single_target:
-                        type: bool
-                        help: "Whether or not to return a single target regardless of period"
-                        default: true

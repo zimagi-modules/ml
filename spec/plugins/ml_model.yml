@@ -60,11 +60,3 @@ plugin:
                     name: date
                     data: dataframe
                     options: dict
-
-        providers:
-            keras:
-                option:
-                    data_provider:
-                        type: str
-                        help: "Data provider for the machine learning model"
-                        default: sequential
