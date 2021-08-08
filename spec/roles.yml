@@ -1,5 +1,3 @@
 roles:
-    data-admin: Administer data series
-    data-viewer: View data series
     model-admin: Build, save, and train machine learning models
     model-user: Run already trained machine learning models
